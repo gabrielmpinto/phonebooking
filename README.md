@@ -1,3 +1,7 @@
+# Application
+
+Runs by default on port 8080. You should be redirected to the login to the login page when accessing it through your browser.
+
 # Building
 
 To package the application:
