@@ -1,0 +1,34 @@
+<html>
+<head>
+  <title>Devices</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<form action="/logout" method="post">
+  <input type="submit" value="Logout">
+</form>
+<h1>Devices</h1>
+<dl>
+  {{#each phones}}
+    <dt>{{this.DeviceName}}</dt>
+    <dd>Technology: {{this.technology}}</dd>
+    <dd>2G: {{this._2g_bands}}</dd>
+    <dd>3G: {{this._3g_bands}}</dd>
+    <dd>4G: {{this._4g_bands}}</dd>
+    <dd>Booked: {{this.booked}}</dd>
+    <dd>Booking Date: {{this.bookingDate}}</dd>
+    <dd>User: {{this.user}}</dd>
+    {{#if this.booked}}
+      <form action="/booking/return/{{this.DeviceName}}" method="post">
+        <input type="submit" value="Return">
+      </form>
+    {{else}}
+      <form action="/booking/book/{{this.DeviceName}}" method="post">
+        <input type="submit" value="Book">
+      </form>
+    {{/if}}
+  {{/each}}
+</dl>
+<p>Total : {{phones.length}}</p>
+</body>
+</html>

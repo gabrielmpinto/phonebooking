@@ -1,0 +1,15 @@
+{
+  "port": 8080,
+  "devices": [
+    "Samsung Galaxy S9",
+    "Samsung Galaxy S8",
+    "Samsung Galaxy S7",
+    "Motorola Nexus 6",
+    "LG Nexus 5X",
+    "Huawei Honor 7X",
+    "Apple iPhone X",
+    "Apple iPhone 8",
+    "Apple iPhone 4s",
+    "Nokia 3310"
+  ]
+}
