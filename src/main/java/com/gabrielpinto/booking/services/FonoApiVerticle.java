@@ -6,7 +6,6 @@ import io.reactivex.Single;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.ext.web.handler.impl.HttpStatusException;
 import io.vertx.reactivex.core.AbstractVerticle;

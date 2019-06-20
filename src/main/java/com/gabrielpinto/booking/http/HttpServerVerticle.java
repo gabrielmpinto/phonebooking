@@ -48,9 +48,9 @@ public class HttpServerVerticle extends AbstractVerticle implements Loggable {
     router.route("/login").method(GET).handler(this::login);
     router.route("/").handler(RedirectAuthHandler.create(authProvider, "/booking/devices"));
     router.route("/booking/*").handler(RedirectAuthHandler.create(authProvider, "/login"));
-    router.route("/booking/devices").method(GET).handler(this::getLatest);
-    router.route("/booking/book/:device").method(POST).handler(this::bookPhone);
-    router.route("/booking/return/:device").method(POST).handler(this::returnPhone);
+    router.route("/booking/devices").method(GET).handler(this::getDevices);
+    router.route("/booking/book/:device").method(POST).handler(this::bookDevice);
+    router.route("/booking/return/:device").method(POST).handler(this::returnDevice);
     router.route("/login/auth").handler(FormLoginHandler.create(authProvider));
     router.route("/logout").handler(this::logout);
 
@@ -79,7 +79,7 @@ public class HttpServerVerticle extends AbstractVerticle implements Loggable {
     ctx.response().putHeader("location", "/").setStatusCode(302).end();
   }
 
-  private void returnPhone(RoutingContext ctx) {
+  private void returnDevice(RoutingContext ctx) {
     final String user = ctx.user().principal().getString("username");
     final String device = ctx.pathParam("device");
     phoneDelegate.returnPhone(device, user)
@@ -96,10 +96,13 @@ public class HttpServerVerticle extends AbstractVerticle implements Loggable {
             ctx.response().setStatusCode(INTERNAL_SERVER_ERROR.code()).end();
           }
         }
-      }, e -> {});
+      }, e -> {
+        log().error("Failed to return phone.", e);
+        ctx.response().setStatusCode(INTERNAL_SERVER_ERROR.code()).end();
+      });
   }
 
-  private void bookPhone(RoutingContext ctx) {
+  private void bookDevice(RoutingContext ctx) {
     final String user = ctx.user().principal().getString("username");
     final String device = ctx.pathParam("device");
     phoneDelegate.bookPhone(device, user)
@@ -114,15 +117,18 @@ public class HttpServerVerticle extends AbstractVerticle implements Loggable {
             ctx.response().setStatusCode(INTERNAL_SERVER_ERROR.code()).end();
           }
         }
+      }, e -> {
+        log().error("Failed to return phone.", e);
+        ctx.response().setStatusCode(INTERNAL_SERVER_ERROR.code()).end();
       });
   }
 
-  private void getLatest(RoutingContext ctx) {
+  private void getDevices(RoutingContext ctx) {
     phoneDelegate.getLatest()
       .flatMap(data -> engine.rxRender(data, "templates/devices.hbs"))
       .subscribe(res -> ctx.response().setStatusCode(OK.code()).end(res),
         e -> {
-          log().error("Failed to get latest phones.", e);
+          log().error("Failed to get devices.", e);
           ctx.response().setStatusCode(INTERNAL_SERVER_ERROR.code()).end();
         });
   }

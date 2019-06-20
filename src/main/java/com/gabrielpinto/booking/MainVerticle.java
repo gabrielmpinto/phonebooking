@@ -20,6 +20,7 @@ import io.vertx.reactivex.ext.web.Router;
 import io.vertx.reactivex.ext.web.templ.handlebars.HandlebarsTemplateEngine;
 
 public class MainVerticle extends AbstractVerticle implements Loggable {
+  private static final String DEFAULT_CONFIG_FILE = "config.json";
 
   @Override
   public void start(Future<Void> startFuture) {
@@ -56,7 +57,7 @@ public class MainVerticle extends AbstractVerticle implements Loggable {
   private ConfigRetriever buildConfigRetriever() {
     var fileStore = new ConfigStoreOptions()
       .setType("file")
-      .setConfig(new JsonObject().put("path", "config.json"));
+      .setConfig(new JsonObject().put("path", DEFAULT_CONFIG_FILE));
     var options = new ConfigRetrieverOptions()
       .addStore(fileStore);
     return ConfigRetriever.create(vertx, options);
