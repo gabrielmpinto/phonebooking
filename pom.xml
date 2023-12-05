@@ -22,7 +22,7 @@
 
     <main.verticle>com.gabrielpinto.booking.MainVerticle</main.verticle>
     <slf4j.version>1.7.21</slf4j.version>
-    <logback-classic.version>1.2.3</logback-classic.version>
+    <logback-classic.version>1.2.13</logback-classic.version>
     <h2.version>1.4.199</h2.version>
 
     <docker.image>gabrielpinto/phonebooking</docker.image>
